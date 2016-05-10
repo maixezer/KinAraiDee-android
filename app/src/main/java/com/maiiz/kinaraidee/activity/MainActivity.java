@@ -1,7 +1,9 @@
-package com.maiiz.kinaraidee;
+package com.maiiz.kinaraidee.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.maiiz.kinaraidee.R;
 
 public class MainActivity extends AppCompatActivity {
 
