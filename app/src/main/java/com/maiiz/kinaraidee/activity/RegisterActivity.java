@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_register);
     ButterKnife.bind(this);
+    initInstances();
   }
 
   @OnClick(R.id.btnSignUp)
@@ -176,5 +178,9 @@ public class RegisterActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  private void initInstances() {
+    tvSignIn.setPaintFlags(tvSignIn.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
   }
 }

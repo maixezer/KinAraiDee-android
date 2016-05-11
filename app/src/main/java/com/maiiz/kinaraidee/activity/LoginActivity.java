@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
+    initInstances();
   }
 
   @OnClick(R.id.tvRegister)
@@ -122,5 +124,9 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
     startActivity(intent);
     finish();
+  }
+
+  private void initInstances() {
+    tvRegister.setPaintFlags(tvRegister.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
   }
 }
