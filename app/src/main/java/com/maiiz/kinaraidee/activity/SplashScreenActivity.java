@@ -30,7 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Runnable 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash_screen);
-    new Handler().postDelayed(this, 5000);
+    new Handler().postDelayed(this, 3000);
   }
 
   @Override
