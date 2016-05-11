@@ -50,13 +50,13 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.tvRegister)
-  public void navigateToSignup() {
-
+  public void navigateToRegister() {
+    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+    startActivity(intent);
   }
 
   @OnClick(R.id.btnSignIn)
   public void signin() {
-    Log.d("Click", "Hellooo");
     // Init ProgressDialog
     dialog = ProgressDialog.show(LoginActivity.this, null, getResources().getString(R.string.please_wait), true);
     dialog.setCancelable(true);
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             String error = jsonObject.getString("error");
             AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this).create();
             dialog.setMessage(error);
+
             dialog.show();
           } catch (IOException e) {
             e.printStackTrace();
