@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.maiiz.kinaraidee.dao.AccessToken;
-import com.maiiz.kinaraidee.manager.http.ApiService;
 
 import java.io.IOException;
 
