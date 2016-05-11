@@ -11,4 +11,8 @@
   <string name="please_wait">Please wait! &#8230;</string>
   <string name="register">No account yet? Create One</string>
   <string name="already_have_account">Already Have Account</string>
+
+  <!-- Drawer -->
+  <string name="open_drawer">Open Menu</string>
+  <string name="close_drawer">Close Menu</string>
 </resources>
