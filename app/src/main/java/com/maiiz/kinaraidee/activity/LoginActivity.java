@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,16 +48,17 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     ButterKnife.bind(this);
+    initInstances();
   }
 
   @OnClick(R.id.tvRegister)
-  public void navigateToSignup() {
-
+  public void navigateToRegister() {
+    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+    startActivity(intent);
   }
 
   @OnClick(R.id.btnSignIn)
   public void signin() {
-    Log.d("Click", "Hellooo");
     // Init ProgressDialog
     dialog = ProgressDialog.show(LoginActivity.this, null, getResources().getString(R.string.please_wait), true);
     dialog.setCancelable(true);
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             String error = jsonObject.getString("error");
             AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this).create();
             dialog.setMessage(error);
+
             dialog.show();
           } catch (IOException e) {
             e.printStackTrace();
@@ -121,5 +124,9 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
     startActivity(intent);
     finish();
+  }
+
+  private void initInstances() {
+    tvRegister.setPaintFlags(tvRegister.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
   }
 }

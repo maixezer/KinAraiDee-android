@@ -19,4 +19,7 @@ public interface ApiService {
 
   @GET("api/v1/users/me")
   Call<Element> currentUser();
+
+  @POST("api/v1/users")
+  Call<Element> createUser(@Body Element user);
 }

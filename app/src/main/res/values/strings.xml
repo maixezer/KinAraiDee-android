@@ -2,8 +2,13 @@
   <string name="app_name">Kinaraidee</string>
   <string name="copyright">CopyRight 2016 KinAraiDee, All Rights Reserved.</string>
   <string name="sign_in_button">Sign In</string>
+  <string name="sign_up_button">Sign Up</string>
   <string name="hint_email">Email</string>
   <string name="hint_password">Password</string>
+  <string name="hint_password_confirmation">Password Confirmation</string>
+  <string name="hint_first_name">First Name</string>
+  <string name="hint_last_name">Last Name</string>
   <string name="please_wait">Please wait! &#8230;</string>
   <string name="register">No account yet? Create One</string>
+  <string name="already_have_account">Already Have Account</string>
 </resources>
