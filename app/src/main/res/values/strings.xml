@@ -1,4 +1,9 @@
 <resources>
   <string name="app_name">Kinaraidee</string>
   <string name="copyright">CopyRight 2016 KinAraiDee, All Rights Reserved.</string>
+  <string name="sign_in_button">Sign In</string>
+  <string name="hint_email">Email</string>
+  <string name="hint_password">Password</string>
+  <string name="please_wait">Please wait! &#8230;</string>
+  <string name="register">No account yet? Create One</string>
 </resources>
