@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  android:id="@+id/navHeader"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="192dp"
+  android:background="?attr/colorPrimary"
+  android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+  <TextView
+    android:id="@+id/tvUsername"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/tvEmail"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/nav_header_font"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/tvEmail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/nav_header_font"/>
+
+</RelativeLayout>

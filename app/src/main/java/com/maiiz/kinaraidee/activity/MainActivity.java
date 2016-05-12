@@ -1,31 +1,49 @@
 package com.maiiz.kinaraidee.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.PersistableBundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.maiiz.kinaraidee.Constants;
 import com.maiiz.kinaraidee.R;
+import com.maiiz.kinaraidee.dao.AccessToken;
+import com.maiiz.kinaraidee.dao.Element;
+import com.maiiz.kinaraidee.dao.User;
+import com.maiiz.kinaraidee.manager.HttpManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
   @BindView(R.id.drawerLayout) DrawerLayout drawerLayout;
   @BindView(R.id.toolbar) Toolbar toolbar;
-  @BindView(R.id.tvSignOut) TextView tvSignOut;
+  @BindView(R.id.nvView) NavigationView nvDrawer;
 
-  ActionBarDrawerToggle actionBarDrawerToggle;
+  private TextView tvUsername;
+  private TextView tvEmail;
+  private ActionBarDrawerToggle actionBarDrawerToggle;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     initInstances();
+    fetchUser();
   }
 
   private void initInstances() {
@@ -47,15 +66,38 @@ public class MainActivity extends AppCompatActivity {
 
     drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
+    // Add nav_header to nvDrawer
+    View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header, nvDrawer, false);
+    nvDrawer.addHeaderView(headerView);
+    tvUsername = (TextView) headerView.findViewById(R.id.tvUsername);
+    tvEmail = (TextView) headerView.findViewById(R.id.tvEmail);
+
+    nvDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+          case R.id.navFilters:
+            break;
+          case R.id.navAccountSettings:
+            break;
+          case R.id.navSignout:
+            navigateToSignIn();
+            break;
+        }
+        return false;
+      }
+    });
+
     // Enabled Home Button on Action Bar ( Tool Bar )
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
-  @OnClick(R.id.tvSignOut)
   public void navigateToSignIn() {
     // Clear access token in shared preferences
-    SharedPreferences.Editor sharedPreferences = getSharedPreferences(Constants.APP_NAME , MODE_PRIVATE).edit();
+    SharedPreferences.Editor sharedPreferences = getSharedPreferences(Constants.APP_NAME, MODE_PRIVATE).edit();
     sharedPreferences.clear();
     sharedPreferences.apply();
 
@@ -78,7 +120,60 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if(actionBarDrawerToggle.onOptionsItemSelected(item)) return true;
+    if (actionBarDrawerToggle.onOptionsItemSelected(item)) return true;
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    fetchUser();
+  }
+
+  private void fetchUser() {
+    SharedPreferences sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
+
+    // create access token
+    AccessToken accessToken = new AccessToken();
+    accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
+    accessToken.setTokenType(sPreferences.getString(Constants.TOKEN_TYPE, null));
+
+    if (accessToken.getAccessToken() == null) {
+      navigateToSignIn();
+    } else {
+
+      Call<Element> element = HttpManager.getInstance().getService(accessToken).currentUser();
+
+      element.enqueue(new Callback<Element>() {
+        @Override
+        public void onResponse(Call<Element> call, Response<Element> response) {
+          if (response.isSuccessful()) {
+            User user = response.body().getUser();
+
+            tvUsername.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+            tvEmail.setText(user.getEmail());
+          } else {
+            Log.e("errors", response.raw().toString());
+            try {
+              JSONObject jsonObject = new JSONObject(response.errorBody().string());
+              String error = jsonObject.getString("error");
+              AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+              dialog.setMessage(error);
+              dialog.show();
+            } catch (IOException e) {
+              e.printStackTrace();
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            navigateToSignIn();
+          }
+        }
+
+        @Override
+        public void onFailure(Call<Element> call, Throwable t) {
+
+        }
+      });
+    }
   }
 }

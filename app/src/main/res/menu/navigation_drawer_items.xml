@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <group android:checkableBehavior="all">
+    <item
+      android:id="@+id/navFilters"
+      android:icon="@drawable/filters"
+      android:title="@string/filter"/>
+
+    <item
+      android:id="@+id/navAccountSettings"
+      android:icon="@drawable/setting"
+      android:title="@string/account_settings"/>
+
+    <item
+      android:id="@+id/navSignout"
+      android:icon="@drawable/sign_out"
+      android:title="@string/sign_out"/>
+  </group>
+
+</menu>

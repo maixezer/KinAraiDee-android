@@ -15,4 +15,7 @@
   <!-- Drawer -->
   <string name="open_drawer">Open Menu</string>
   <string name="close_drawer">Close Menu</string>
+  <string name="filter">Filters</string>
+  <string name="account_settings">Account Settings</string>
+  <string name="sign_out">Sign Out</string>
 </resources>
