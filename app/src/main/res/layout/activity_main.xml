@@ -2,6 +2,7 @@
 <android.support.v4.widget.DrawerLayout
   android:id="@+id/drawerLayout"
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -18,8 +19,8 @@
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
       android:background="?attr/colorPrimary"
-      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-      android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+      android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <FrameLayout
       android:id="@+id/contentContainer"
@@ -29,17 +30,13 @@
   </LinearLayout>
 
   <!-- Menu -->
-  <LinearLayout
+  <android.support.design.widget.NavigationView
+    android:id="@+id/nvView"
     android:layout_width="@dimen/drawer_menu_width"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/white"
-    android:orientation="vertical">
+    app:itemTextColor="#333"
+    app:menu="@menu/navigation_drawer_items"/>
 
-    <TextView
-      android:id="@+id/tvSignOut"
-      android:layout_width="match_parent"
-      android:layout_height="30sp"
-      android:text="Sign out"/>
-  </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
