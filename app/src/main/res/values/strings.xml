@@ -11,6 +11,8 @@
   <string name="please_wait">Please wait! &#8230;</string>
   <string name="register">No account yet? Create One</string>
   <string name="already_have_account">Already Have Account</string>
+  <string name="tap_random">TAP TO RANDOM FOOD</string>
+  <string name="not_found">Food not found.</string>
 
   <!-- Drawer -->
   <string name="open_drawer">Open Menu</string>
@@ -18,4 +20,14 @@
   <string name="filter">Filters</string>
   <string name="account_settings">Account Settings</string>
   <string name="sign_out">Sign Out</string>
+
+  <!-- RangeSeek -->
+  <string name="calories_header">Calories range (Kcal)</string>
+  <string name="min_calories">0</string>
+  <string name="max_calories">1500</string>
+  <string name="tags_header">Demand tags</string>
+  <string name="like_tag">Like</string>
+  <string name="dislike_tag">Dislike</string>
+  <string name="radius_header">Near Radius</string>
+  <string name="hint_radius">Kilometers</string>
 </resources>

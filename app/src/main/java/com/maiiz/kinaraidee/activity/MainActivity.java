@@ -22,6 +22,7 @@ import com.maiiz.kinaraidee.R;
 import com.maiiz.kinaraidee.dao.AccessToken;
 import com.maiiz.kinaraidee.dao.Element;
 import com.maiiz.kinaraidee.dao.User;
+import com.maiiz.kinaraidee.fragment.FoodFragment;
 import com.maiiz.kinaraidee.manager.HttpManager;
 
 import org.json.JSONException;
@@ -52,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
     ButterKnife.bind(this);
     initInstances();
     fetchUser();
+
+    if (savedInstanceState == null) {
+      getSupportFragmentManager().beginTransaction()
+        .replace(R.id.contentContainer, FoodFragment.newInstance())
+        .commit();
+    }
   }
 
   private void initInstances() {
@@ -79,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
           case R.id.navFilters:
+            Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+            startActivity(intent);
             break;
           case R.id.navAccountSettings:
             break;
@@ -86,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             navigateToSignIn();
             break;
         }
+        drawerLayout.closeDrawer(nvDrawer);
         return false;
       }
     });
