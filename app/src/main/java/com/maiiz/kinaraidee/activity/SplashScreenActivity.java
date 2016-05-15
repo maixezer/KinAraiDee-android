@@ -24,17 +24,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SplashScreenActivity extends AppCompatActivity implements Runnable {
+public class SplashScreenActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash_screen);
-    new Handler().postDelayed(this, 3000);
+    initInstances();
   }
 
-  @Override
-  public void run() {
+  private void initInstances() {
     SharedPreferences sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
     AccessToken accessToken = new AccessToken();
     accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
