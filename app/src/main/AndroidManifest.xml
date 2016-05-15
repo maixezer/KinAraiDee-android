@@ -3,8 +3,6 @@
   package="com.maiiz.kinaraidee"
   xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-
   <application
     android:name=".KinAraiDeeApplication"
     android:allowBackup="true"
@@ -39,6 +37,13 @@
       android:screenOrientation="portrait"
       android:theme="@style/AppThemeWithActionBar">
     </activity>
+
+    <meta-data
+      android:name="com.maiiz.kinaraidee.configuration.GlideConfiguration"
+      android:value="GlideModule"/>
+
   </application>
+
+  <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
