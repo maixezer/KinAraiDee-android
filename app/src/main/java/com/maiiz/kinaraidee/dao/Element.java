@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class Element {
 
   @SerializedName("user") User user;
+  @SerializedName("food") Food food;
 
   public User getUser() {
     return user;
@@ -15,5 +16,13 @@ public class Element {
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public Food getFood() {
+    return food;
+  }
+
+  public void setFood(Food food) {
+    this.food = food;
   }
 }

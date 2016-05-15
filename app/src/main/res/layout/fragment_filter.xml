@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:rsb="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fillViewport="true">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginLeft="@dimen/filter_border_margin"
+      android:layout_marginRight="@dimen/filter_border_margin"
+      android:layout_marginTop="@dimen/filter_border_margin"
+      android:layout_weight="1"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="@dimen/activity_vertical_margin"
+          android:text="@string/calories_header"
+          android:textSize="18sp"/>
+
+        <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border"
+          android:padding="@dimen/filter_tag_padding">
+
+          <TextView
+            android:id="@+id/tvMinrsb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:text="@string/min_calories"/>
+
+          <TextView
+            android:id="@+id/tvMaxrsb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:freezesText="true"
+            android:text="@string/max_calories"/>
+
+          <org.florescu.android.rangeseekbar.RangeSeekBar
+            android:id="@+id/rsbCalories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvMaxrsb"
+            rsb:absoluteMaxValue="2000"
+            rsb:absoluteMinValue="0"
+            rsb:showLabels="false"
+            rsb:thumbNormal="@drawable/seek_thumb_normal"
+            rsb:thumbPressed="@drawable/seek_thumb_pressed"
+            rsb:valuesAboveThumbs="true"/>
+
+        </RelativeLayout>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginLeft="@dimen/filter_border_margin"
+      android:layout_marginRight="@dimen/filter_border_margin"
+      android:layout_weight="1"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="@dimen/activity_vertical_margin"
+          android:text="@string/tags_header"
+          android:textSize="18sp"/>
+
+        <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border"
+          android:padding="@dimen/filter_tag_padding">
+
+          <LinearLayout
+            android:id="@+id/likeTagLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/like_tag"/>
+
+            <EditText
+              android:id="@+id/etLikeTag"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:singleLine="true"/>
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/likeTagLayout"
+            android:orientation="vertical">
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/dislike_tag"/>
+
+            <EditText
+              android:id="@+id/etNotLikeTag"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:singleLine="true"/>
+
+          </LinearLayout>
+
+        </RelativeLayout>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginLeft="@dimen/filter_border_margin"
+      android:layout_marginRight="@dimen/filter_border_margin"
+      android:layout_weight="1">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_border_margin"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="@dimen/activity_vertical_margin"
+          android:text="@string/radius_header"
+          android:textSize="18sp"/>
+
+        <EditText
+          android:id="@+id/etNearRadius"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/hint_radius"
+          android:singleLine="true"/>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</ScrollView>
