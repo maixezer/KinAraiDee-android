@@ -11,4 +11,12 @@ public class Constants {
   public static String APP_NAME = "kin_arai_dee";
   public static String ACCESS_TOKEN = "kin_arai_dee_app_token";
   public static String TOKEN_TYPE = "kin_arai_dee_app_type";
+
+  // Filters
+  public static String FILTER_FLAG = "filter_frag";
+  public static String MIN_CALORIES = "min_calories";
+  public static String MAX_CALORIES = "max_calories";
+  public static String LIKE_TAGS = "like_tags";
+  public static String DISLIKE_TAGS = "dislike_tabs";
+  public static String NEAR_RADIUS = "near_radius";
 }
