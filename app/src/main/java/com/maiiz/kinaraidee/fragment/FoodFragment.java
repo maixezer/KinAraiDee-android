@@ -11,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.maiiz.kinaraidee.Constants;
 import com.maiiz.kinaraidee.R;
 import com.maiiz.kinaraidee.dao.AccessToken;
@@ -44,10 +46,12 @@ public class FoodFragment extends Fragment {
   @BindView(R.id.tvFoodName) TextView tvFoodName;
   @BindView(R.id.foodImage) ImageView foodImage;
   @BindView(R.id.tvRandomFood) TextView tvRandomFood;
+  @BindView(R.id.mapBtn) ImageButton mapBtn;
 
   private ProgressDialog dialog;
   private SharedPreferences sPreferences;
   private Map<String, String> filters;
+  private Food food;
 
   public static FoodFragment newInstance() {
     FoodFragment fragment = new FoodFragment();
@@ -66,40 +70,31 @@ public class FoodFragment extends Fragment {
   private void initInstances() {
     sPreferences = getActivity().getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
     filters = new HashMap<>();
-    randomFood();
-  }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-
-    if (sPreferences.getBoolean(Constants.FILTER_FLAG, false)) {
-      filters.put(Constants.MIN_CALORIES, sPreferences.getString(Constants.MIN_CALORIES, "0"));
-      filters.put(Constants.MAX_CALORIES, sPreferences.getString(Constants.MAX_CALORIES, "2000"));
-      filters.put(Constants.LIKE_TAGS, sPreferences.getString(Constants.LIKE_TAGS, ""));
-      filters.put(Constants.DISLIKE_TAGS, sPreferences.getString(Constants.DISLIKE_TAGS, ""));
-
-      Log.d("min_calories", filters.get(Constants.MIN_CALORIES));
-      Log.d("max_calories", filters.get(Constants.MAX_CALORIES));
-
+    // case backstack reload image
+    if (food != null) {
+      Glide.with(FoodFragment.this.getContext())
+        .load(food.getImage())
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .into(foodImage);
+    } else {
       randomFood();
     }
   }
 
   @Override
-  public void onStop() {
-    super.onStop();
-    SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE).edit();
-    editor.putBoolean(Constants.FILTER_FLAG, false);
-    editor.apply();
+  public void onResume() {
+    super.onResume();
+    if (sPreferences.getBoolean(Constants.FILTER_FLAG, false)) {
+      setFilters();
+      randomFood();
+    }
   }
 
   @Override
-  public void onDestroy() {
-    super.onDestroy();
-    SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE).edit();
-    editor.putBoolean(Constants.FILTER_FLAG, false);
-    editor.apply();
+  public void onPause() {
+    super.onPause();
+    clearFilterFlag();
   }
 
   @OnClick(R.id.tvRandomFood)
@@ -120,10 +115,13 @@ public class FoodFragment extends Fragment {
       @Override
       public void onResponse(Call<Element> call, Response<Element> response) {
         if (response.isSuccessful()) {
-          Food food = response.body().getFood();
+          food = response.body().getFood();
 
           tvFoodName.setText(String.format("%s : %s Kcal", food.getName(), food.getCalories()));
-          Glide.with(FoodFragment.this.getContext()).load(food.getImage()).into(foodImage);
+          Glide.with(FoodFragment.this.getContext())
+            .load(food.getImage())
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(foodImage);
         } else {
           try {
             JSONObject jsonObject = new JSONObject(response.errorBody().string());
@@ -148,5 +146,28 @@ public class FoodFragment extends Fragment {
         dialog.dismiss();
       }
     });
+  }
+
+  @OnClick(R.id.mapBtn)
+  public void navigateToMap() {
+    MapFragment mapFragment = MapFragment.newInstance();
+
+    getActivity().getSupportFragmentManager().beginTransaction()
+      .replace(R.id.contentContainer, mapFragment)
+      .addToBackStack(null)
+      .commit();
+  }
+
+  private void clearFilterFlag() {
+    SharedPreferences.Editor editor = sPreferences.edit();
+    editor.putBoolean(Constants.FILTER_FLAG, false);
+    editor.apply();
+  }
+
+  private void setFilters() {
+    filters.put(Constants.MIN_CALORIES, sPreferences.getString(Constants.MIN_CALORIES, "0"));
+    filters.put(Constants.MAX_CALORIES, sPreferences.getString(Constants.MAX_CALORIES, "2000"));
+    filters.put(Constants.LIKE_TAGS, sPreferences.getString(Constants.LIKE_TAGS, ""));
+    filters.put(Constants.DISLIKE_TAGS, sPreferences.getString(Constants.DISLIKE_TAGS, ""));
   }
 }

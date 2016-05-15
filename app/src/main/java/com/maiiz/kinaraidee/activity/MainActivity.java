@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
   private TextView tvUsername;
   private TextView tvEmail;
   private ActionBarDrawerToggle actionBarDrawerToggle;
+  private SharedPreferences sPreferences;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initInstances() {
+    sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
     setSupportActionBar(toolbar);
 
     actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
   public void navigateToSignIn() {
     // Clear access token in shared preferences
-    SharedPreferences.Editor sharedPreferences = getSharedPreferences(Constants.APP_NAME, MODE_PRIVATE).edit();
+    SharedPreferences.Editor sharedPreferences = sPreferences.edit();
     sharedPreferences.clear();
     sharedPreferences.apply();
 
@@ -141,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void fetchUser() {
-    SharedPreferences sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
-
     // create access token
     AccessToken accessToken = new AccessToken();
     accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));

@@ -17,6 +17,7 @@
     android:layout_marginTop="@dimen/food_name_margin"
     android:gravity="top|center_horizontal"
     android:textColor="@color/colorAccent"
+    android:freezesText="true"
     android:textSize="@dimen/food_name_font"/>
 
   <TextView
