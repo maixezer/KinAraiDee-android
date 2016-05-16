@@ -17,6 +17,7 @@ public class Food {
   @SerializedName("image") private String image;
   @SerializedName("created_at") private Date createdAt;
   @SerializedName("updated_at") private Date updatedAt;
+  @SerializedName("stores") private List<Store> stores;
 
   public String getId() {
     return id;
@@ -72,5 +73,13 @@ public class Food {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public List<Store> getStores() {
+    return stores;
+  }
+
+  public void setStores(List<Store> stores) {
+    this.stores = stores;
   }
 }

@@ -7,7 +7,7 @@
     android:id="@+id/foodImage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="fitXY"/>
+    android:scaleType="fitCenter"/>
 
   <TextView
     android:id="@+id/tvFoodName"
@@ -15,6 +15,7 @@
     android:layout_height="wrap_content"
     android:layout_alignTop="@+id/foodImage"
     android:layout_marginTop="@dimen/food_name_margin"
+    android:freezesText="true"
     android:gravity="top|center_horizontal"
     android:textColor="@color/colorAccent"
     android:textSize="@dimen/food_name_font"/>
@@ -43,14 +44,16 @@
       android:layout_width="match_parent"
       android:layout_height="50dp"
       android:layout_weight="1"
-      android:background="@color/colorPrimary"/>
+      android:background="@color/colorPrimary"
+      android:src="@drawable/map"/>
 
     <ImageButton
       android:id="@+id/addHistoryBtn"
       android:layout_width="match_parent"
       android:layout_height="50dp"
       android:layout_weight="1"
-      android:background="@color/colorPrimaryDark"/>
+      android:background="@color/colorPrimaryDark"
+      android:src="@drawable/plus"/>
 
   </LinearLayout>
 
