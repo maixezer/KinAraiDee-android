@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +104,6 @@ public class FilterFragment extends Fragment {
 
     etLikeTag.setText(sPreferences.getString(Constants.LIKE_TAGS, ""));
     etNotLikeTag.setText(sPreferences.getString(Constants.DISLIKE_TAGS, ""));
-    etNearRadius.setText(sPreferences.getString(Constants.NEAR_RADIUS, ""));
+    etNearRadius.setText(sPreferences.getString(Constants.NEAR_RADIUS, "1"));
   }
 }
