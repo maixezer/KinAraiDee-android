@@ -34,6 +34,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,11 +74,13 @@ public class FoodFragment extends Fragment {
 
     // case backstack reload image
     if (food != null) {
-      Glide.with(FoodFragment.this.getContext())
+      Glide.with(getContext())
         .load(food.getImage())
+        .bitmapTransform(new CropCircleTransformation(getContext()))
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(foodImage);
     } else {
+      setFilters();
       randomFood();
     }
   }
@@ -118,15 +121,16 @@ public class FoodFragment extends Fragment {
           food = response.body().getFood();
 
           tvFoodName.setText(String.format("%s : %s Kcal", food.getName(), food.getCalories()));
-          Glide.with(FoodFragment.this.getContext())
+          Glide.with(getContext())
             .load(food.getImage())
+            .bitmapTransform(new CropCircleTransformation(getContext()))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(foodImage);
         } else {
           try {
             JSONObject jsonObject = new JSONObject(response.errorBody().string());
             String error = jsonObject.getString("message");
-            AlertDialog dialog = new AlertDialog.Builder(FoodFragment.this.getContext()).create();
+            AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
             dialog.setMessage(error);
             dialog.show();
             tvFoodName.setText(R.string.not_found);
@@ -150,12 +154,18 @@ public class FoodFragment extends Fragment {
 
   @OnClick(R.id.mapBtn)
   public void navigateToMap() {
-    MapFragment mapFragment = MapFragment.newInstance();
+    Fragment fragment = MapFragment.newInstance(food.getStores());
 
-    getActivity().getSupportFragmentManager().beginTransaction()
-      .replace(R.id.contentContainer, mapFragment)
-      .addToBackStack(null)
-      .commit();
+    if (fragment instanceof  MapFragment) {
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(
+          R.anim.from_right, R.anim.to_left,
+          R.anim.from_left, R.anim.to_right
+        )
+        .replace(R.id.contentContainer, fragment)
+        .addToBackStack(null)
+        .commit();
+    }
   }
 
   private void clearFilterFlag() {
@@ -169,5 +179,6 @@ public class FoodFragment extends Fragment {
     filters.put(Constants.MAX_CALORIES, sPreferences.getString(Constants.MAX_CALORIES, "2000"));
     filters.put(Constants.LIKE_TAGS, sPreferences.getString(Constants.LIKE_TAGS, ""));
     filters.put(Constants.DISLIKE_TAGS, sPreferences.getString(Constants.DISLIKE_TAGS, ""));
+    filters.put(Constants.NEAR_RADIUS, sPreferences.getString(Constants.NEAR_RADIUS, "1"));
   }
 }
