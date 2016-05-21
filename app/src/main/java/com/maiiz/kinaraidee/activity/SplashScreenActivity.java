@@ -26,15 +26,18 @@ import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
+  private SharedPreferences sPreferences;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash_screen);
     initInstances();
+    clearCalsPerDay();
   }
 
   private void initInstances() {
-    SharedPreferences sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
+    sPreferences = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
     AccessToken accessToken = new AccessToken();
     accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
     accessToken.setTokenType(sPreferences.getString(Constants.TOKEN_TYPE, null));
@@ -84,5 +87,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     Intent intent = new Intent(this, MainActivity.class);
     startActivity(intent);
     finish();
+  }
+
+  private void clearCalsPerDay() {
+    SharedPreferences.Editor editor = getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE).edit();
+    editor.remove(Constants.CALORIES_PER_DAY);
+    editor.apply();
   }
 }

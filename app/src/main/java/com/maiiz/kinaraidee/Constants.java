@@ -19,4 +19,7 @@ public class Constants {
   public static String LIKE_TAGS = "like_tags";
   public static String DISLIKE_TAGS = "dislike_tabs";
   public static String NEAR_RADIUS = "near_radius";
+
+  // Account Settings
+  public static String CALORIES_PER_DAY = "calories_per_day";
 }

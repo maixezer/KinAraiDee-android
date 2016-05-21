@@ -85,13 +85,16 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent;
 
         switch (id) {
           case R.id.navFilters:
-            Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+            intent = new Intent(MainActivity.this, FilterActivity.class);
             startActivity(intent);
             break;
           case R.id.navAccountSettings:
+            intent = new Intent(MainActivity.this, AccountSettingsActivity.class);
+            startActivity(intent);
             break;
           case R.id.navSignout:
             navigateToSignIn();
