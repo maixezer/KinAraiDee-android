@@ -28,4 +28,10 @@ public interface ApiService {
 
   @GET("api/v1/foods")
   Call<Element> randomFood(@QueryMap Map<String, String> options);
+
+  @POST("api/v1/histories")
+  Call<Element> createHistory(@Body Element history);
+
+  @GET("api/v1/histories")
+  Call<Element> getHistory();
 }
