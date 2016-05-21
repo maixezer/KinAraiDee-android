@@ -8,8 +8,10 @@ import java.util.Map;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -34,4 +36,7 @@ public interface ApiService {
 
   @GET("api/v1/histories")
   Call<Element> getHistory();
+
+  @DELETE("api/v1/histories/{id}")
+  Call<Element> deleteHistory(@Path("id") String historyId);
 }

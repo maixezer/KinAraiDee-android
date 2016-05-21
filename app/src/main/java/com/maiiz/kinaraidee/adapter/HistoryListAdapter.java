@@ -79,7 +79,8 @@ public class HistoryListAdapter extends BaseAdapter {
     HistoryCustomViewGroup child = null;
     for (History h : mHistories.get(date)) {
       child = new HistoryCustomViewGroup(foodList.getContext());
-      child.setFoodText(h.getFood().getName(), h.getFood().getCalories());
+      child.setHistory(h);
+      child.setFoodList(foodList);
       foodList.addView(child);
     }
   }
