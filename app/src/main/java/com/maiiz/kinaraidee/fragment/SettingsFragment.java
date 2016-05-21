@@ -58,8 +58,6 @@ public class SettingsFragment extends Fragment {
     editor.putString(Constants.CALORIES_PER_DAY, calPerDay);
     editor.apply();
 
-    Log.d("check", sPreferences.getString(Constants.CALORIES_PER_DAY, "0"));
-
     tvLeftCals.setText(calDiff());
     return false;
   }

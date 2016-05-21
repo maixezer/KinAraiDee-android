@@ -50,6 +50,7 @@ public class FoodFragment extends Fragment {
   @BindView(R.id.foodImage) ImageView foodImage;
   @BindView(R.id.tvRandomFood) TextView tvRandomFood;
   @BindView(R.id.mapBtn) ImageButton mapBtn;
+  @BindView(R.id.addHistoryBtn) ImageButton historyBtn;
 
   private ProgressDialog dialog;
   private SharedPreferences sPreferences;
@@ -73,6 +74,7 @@ public class FoodFragment extends Fragment {
   private void initInstances() {
     sPreferences = getActivity().getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
     filters = new HashMap<>();
+    setButtonEnabled(true);
 
     // case backstack reload image
     if (food != null) {
@@ -123,6 +125,7 @@ public class FoodFragment extends Fragment {
             .bitmapTransform(new CropCircleTransformation(getContext()))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(foodImage);
+          setButtonEnabled(true);
         } else {
           try {
             JSONObject jsonObject = new JSONObject(response.errorBody().string());
@@ -131,7 +134,8 @@ public class FoodFragment extends Fragment {
             dialog.setMessage(error);
             dialog.show();
             tvFoodName.setText(R.string.not_found);
-            foodImage.setImageResource(android.R.color.transparent);
+            foodImage.setImageResource(R.drawable.no_food);
+            setButtonEnabled(false);
           } catch (IOException e) {
             e.printStackTrace();
           } catch (JSONException e) {
@@ -231,5 +235,10 @@ public class FoodFragment extends Fragment {
     accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
     accessToken.setTokenType(sPreferences.getString(Constants.TOKEN_TYPE, null));
     return accessToken;
+  }
+
+  private void setButtonEnabled(boolean status) {
+    mapBtn.setEnabled(status);
+    historyBtn.setEnabled(status);
   }
 }
