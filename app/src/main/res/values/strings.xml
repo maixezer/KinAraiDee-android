@@ -31,4 +31,11 @@
   <string name="dislike_tag">Dislike</string>
   <string name="radius_header">Near Radius</string>
   <string name="hint_radius">Kilometers</string>
+  <string name="radius_units">Km</string>
+
+  <!-- Settings -->
+  <string name="settings_calories">Set Calories Per Day (KCal)</string>
+  <string name="settings_calories_tv">Calories : </string>
+  <string name="calories_left">Calories Left Per Day</string>
+  <string name="calories_units">KCal</string>
 </resources>
