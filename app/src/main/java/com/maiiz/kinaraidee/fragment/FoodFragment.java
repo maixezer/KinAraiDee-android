@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,6 +23,7 @@ import com.maiiz.kinaraidee.R;
 import com.maiiz.kinaraidee.dao.AccessToken;
 import com.maiiz.kinaraidee.dao.Element;
 import com.maiiz.kinaraidee.dao.Food;
+import com.maiiz.kinaraidee.dao.History;
 import com.maiiz.kinaraidee.manager.HttpManager;
 
 import org.json.JSONException;
@@ -105,13 +107,8 @@ public class FoodFragment extends Fragment {
     dialog = ProgressDialog.show(this.getContext(), null, getResources().getString(R.string.please_wait), true);
     dialog.setCancelable(true);
 
-    // get Access Token
-    AccessToken accessToken = new AccessToken();
-    accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
-    accessToken.setTokenType(sPreferences.getString(Constants.TOKEN_TYPE, null));
-
     Call<Element> retriveFoodCall = HttpManager.getInstance()
-      .getService(accessToken)
+      .getService(getAccessToken())
       .randomFood(filters);
 
     retriveFoodCall.enqueue(new Callback<Element>() {
@@ -156,7 +153,7 @@ public class FoodFragment extends Fragment {
   public void navigateToMap() {
     Fragment fragment = MapFragment.newInstance(food.getStores());
 
-    if (fragment instanceof  MapFragment) {
+    if (fragment instanceof MapFragment) {
       getActivity().getSupportFragmentManager().beginTransaction()
         .setCustomAnimations(
           R.anim.from_right, R.anim.to_left,
@@ -166,6 +163,53 @@ public class FoodFragment extends Fragment {
         .addToBackStack(null)
         .commit();
     }
+  }
+
+  @OnClick(R.id.addHistoryBtn)
+  public void addHistory() {
+    dialog = ProgressDialog.show(this.getContext(), null, getResources().getString(R.string.please_wait), true);
+    dialog.setCancelable(true);
+    // create History
+    History history = new History();
+    history.setFoodId(food.getId());
+
+    Element element = new Element();
+    element.setHistory(history);
+
+    Call<Element> createHistoryCall = HttpManager
+      .getInstance()
+      .getService()
+      .createHistory(element);
+
+    createHistoryCall.enqueue(new Callback<Element>() {
+      @Override
+      public void onResponse(Call<Element> call, Response<Element> response) {
+        if (response.isSuccessful()) {
+          History history = response.body().getHistory();
+
+          Toast.makeText(getContext(), String.format("Add %s to your history", history.getFood().getName()), Toast.LENGTH_LONG).show();
+        } else {
+          try {
+            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+            String error = jsonObject.getString("errors");
+            AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
+            dialog.setMessage(error);
+            dialog.show();
+          } catch (IOException e) {
+            e.printStackTrace();
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+          Log.e("errors", response.raw().toString());
+        }
+        dialog.dismiss();
+      }
+
+      @Override
+      public void onFailure(Call<Element> call, Throwable t) {
+
+      }
+    });
   }
 
   private void clearFilterFlag() {
@@ -180,5 +224,12 @@ public class FoodFragment extends Fragment {
     filters.put(Constants.LIKE_TAGS, sPreferences.getString(Constants.LIKE_TAGS, ""));
     filters.put(Constants.DISLIKE_TAGS, sPreferences.getString(Constants.DISLIKE_TAGS, ""));
     filters.put(Constants.NEAR_RADIUS, sPreferences.getString(Constants.NEAR_RADIUS, "1"));
+  }
+
+  private AccessToken getAccessToken() {
+    AccessToken accessToken = new AccessToken();
+    accessToken.setAccessToken(sPreferences.getString(Constants.ACCESS_TOKEN, null));
+    accessToken.setTokenType(sPreferences.getString(Constants.TOKEN_TYPE, null));
+    return accessToken;
   }
 }
