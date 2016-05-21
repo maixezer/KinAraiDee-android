@@ -16,7 +16,7 @@ public class FilterActivity extends AppCompatActivity {
 
     initInstances();
 
-    if(savedInstanceState == null) {
+    if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
         .replace(R.id.contentContainer, FilterFragment.newInstance())
         .commit();

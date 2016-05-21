@@ -15,9 +15,9 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_marginLeft="@dimen/filter_border_margin"
-      android:layout_marginRight="@dimen/filter_border_margin"
-      android:layout_marginTop="@dimen/filter_border_margin"
+      android:layout_marginLeft="@dimen/border_margin"
+      android:layout_marginRight="@dimen/border_margin"
+      android:layout_marginTop="@dimen/border_margin"
       android:layout_weight="1"
       android:orientation="vertical">
 
@@ -75,8 +75,8 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_marginLeft="@dimen/filter_border_margin"
-      android:layout_marginRight="@dimen/filter_border_margin"
+      android:layout_marginLeft="@dimen/border_margin"
+      android:layout_marginRight="@dimen/border_margin"
       android:layout_weight="1"
       android:orientation="vertical">
 
@@ -145,30 +145,38 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_marginLeft="@dimen/filter_border_margin"
-      android:layout_marginRight="@dimen/filter_border_margin"
+      android:layout_marginLeft="@dimen/border_margin"
+      android:layout_marginRight="@dimen/border_margin"
       android:layout_weight="1">
 
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/filter_border_margin"
+        android:layout_marginTop="@dimen/border_margin"
         android:orientation="horizontal">
 
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginBottom="@dimen/activity_vertical_margin"
+          android:layout_weight="1"
           android:text="@string/radius_header"
           android:textSize="18sp"/>
 
         <EditText
           android:id="@+id/etNearRadius"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="center_horizontal"
           android:hint="@string/hint_radius"
-          android:singleLine="true"
-          android:gravity="center_horizontal"/>
+          android:singleLine="true"/>
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="@string/radius_units"/>
 
       </LinearLayout>
 
