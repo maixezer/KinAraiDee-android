@@ -1,6 +1,7 @@
 package com.maiiz.kinaraidee.view;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +44,7 @@ public class HistoryCustomViewGroup extends FrameLayout {
   private SharedPreferences sPreferences;
   private History history;
   private LinearLayout foodList;
+  private ProgressDialog dialog;
 
   public HistoryCustomViewGroup(Context context) {
     super(context);
@@ -94,6 +96,9 @@ public class HistoryCustomViewGroup extends FrameLayout {
 
   @OnClick(R.id.delBtn)
   public void deleteHistory() {
+    dialog = ProgressDialog.show(this.getContext(), null, getResources().getString(R.string.please_wait), true);
+    dialog.setCancelable(true);
+
     Call<Element> deleteHistoryCall = HttpManager
       .getInstance()
       .getService(getAccessToken())
@@ -107,7 +112,9 @@ public class HistoryCustomViewGroup extends FrameLayout {
             .show();
           foodList.removeView(HistoryCustomViewGroup.this);
           foodList.invalidate();
+          dialog.dismiss();
         } else {
+          dialog.dismiss();
           Log.e("errors", response.raw().toString());
           try {
             JSONObject jsonObject = new JSONObject(response.errorBody().string());
