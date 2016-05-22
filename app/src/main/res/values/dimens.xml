@@ -18,4 +18,5 @@
   <!-- Font -->
   <dimen name="nav_header_font">16sp</dimen>
   <dimen name="food_name_font">24sp</dimen>
+  <dimen name="settings_font">18sp</dimen>
 </resources>
