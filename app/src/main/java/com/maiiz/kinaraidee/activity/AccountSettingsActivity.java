@@ -1,13 +1,13 @@
 package com.maiiz.kinaraidee.activity;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import com.maiiz.kinaraidee.R;
 import com.maiiz.kinaraidee.adapter.ViewPagerAdapter;
@@ -52,6 +52,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements IFragm
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
         viewPager.setCurrentItem(tab.getPosition());
+        final InputMethodManager imm = (InputMethodManager)getSystemService(
+          Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
       }
 
       @Override
