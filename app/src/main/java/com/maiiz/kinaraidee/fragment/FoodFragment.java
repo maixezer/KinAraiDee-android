@@ -46,11 +46,16 @@ import retrofit2.Response;
  */
 public class FoodFragment extends Fragment {
 
-  @BindView(R.id.tvFoodName) TextView tvFoodName;
-  @BindView(R.id.foodImage) ImageView foodImage;
-  @BindView(R.id.tvRandomFood) TextView tvRandomFood;
-  @BindView(R.id.mapBtn) ImageButton mapBtn;
-  @BindView(R.id.addHistoryBtn) ImageButton historyBtn;
+  @BindView(R.id.tvFoodName)
+  TextView tvFoodName;
+  @BindView(R.id.foodImage)
+  ImageView foodImage;
+  @BindView(R.id.tvRandomFood)
+  TextView tvRandomFood;
+  @BindView(R.id.mapBtn)
+  ImageButton mapBtn;
+  @BindView(R.id.addHistoryBtn)
+  ImageButton historyBtn;
 
   private ProgressDialog dialog;
   private SharedPreferences sPreferences;
@@ -102,6 +107,25 @@ public class FoodFragment extends Fragment {
   public void onPause() {
     super.onPause();
     clearFilterFlag();
+  }
+
+  @OnClick(R.id.foodImage)
+  public void scaleUpImage() {
+    Fragment fragment = FullImageFragment.newInstance();
+
+    if (fragment instanceof FullImageFragment) {
+      FullImageFragment fullFrag = (FullImageFragment) fragment;
+      fullFrag.setImage(food.getImage());
+
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(
+          R.anim.from_right, R.anim.to_left,
+          R.anim.from_left, R.anim.to_right
+        )
+        .replace(R.id.contentContainer, fullFrag)
+        .addToBackStack(null)
+        .commit();
+    }
   }
 
   @OnClick(R.id.tvRandomFood)

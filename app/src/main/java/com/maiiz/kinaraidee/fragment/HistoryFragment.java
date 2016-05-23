@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -45,6 +47,7 @@ import retrofit2.Response;
 public class HistoryFragment extends Fragment {
 
   @BindView(R.id.listView) ListView listView;
+  @BindView(R.id.swipeLayout) SwipeRefreshLayout swipeRefreshLayout;
 
   private HistoryListAdapter historyListAdapter;
   private IFragmentActivity aCallback;
@@ -69,8 +72,15 @@ public class HistoryFragment extends Fragment {
   private void initInstances() {
     sPreferences = getActivity().getSharedPreferences(Constants.APP_NAME, Context.MODE_PRIVATE);
 
+    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        retriveHistory(false);
+      }
+    });
+
     if (histories == null) {
-      retriveHistory();
+      retriveHistory(true);
     }
   }
 
@@ -103,9 +113,12 @@ public class HistoryFragment extends Fragment {
     super.onDetach();
   }
 
-  private void retriveHistory() {
-    dialog = ProgressDialog.show(this.getContext(), null, getResources().getString(R.string.please_wait), true);
-    dialog.setCancelable(true);
+  private void retriveHistory(final boolean dialogFlag) {
+
+    if (dialogFlag) {
+      dialog = ProgressDialog.show(this.getContext(), null, getResources().getString(R.string.please_wait), true);
+      dialog.setCancelable(true);
+    }
 
     // get all history
     Call<Element> retriveHistoryCall = HttpManager
@@ -123,6 +136,8 @@ public class HistoryFragment extends Fragment {
 
           historyListAdapter = new HistoryListAdapter(histories);
           listView.setAdapter(historyListAdapter);
+
+          swipeRefreshLayout.setRefreshing(false);
         } else {
           try {
             JSONObject jsonObject = new JSONObject(response.errorBody().string());
@@ -137,7 +152,9 @@ public class HistoryFragment extends Fragment {
           }
           Log.e("errors", response.raw().toString());
         }
-        dialog.dismiss();
+        if (dialogFlag) {
+          dialog.dismiss();
+        }
       }
 
       @Override
