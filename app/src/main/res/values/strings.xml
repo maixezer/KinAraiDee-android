@@ -14,6 +14,7 @@
   <string name="tap_random">TAP TO RANDOM FOOD</string>
   <string name="not_found">Food not found.</string>
   <string name="google_map_api_key">AIzaSyCBKVuUSeQZTuELlw22jyoGMDdEZ4Bl7l8</string>
+  <string name="menu_refresh">Refresh</string>
 
   <!-- Drawer -->
   <string name="open_drawer">Open Menu</string>
